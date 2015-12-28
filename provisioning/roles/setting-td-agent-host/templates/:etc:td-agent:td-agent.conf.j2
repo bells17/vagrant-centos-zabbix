@@ -1,0 +1,24 @@
+<source>
+  type forward
+</source>
+
+<match *.*.*.service>
+  type forest
+  subtype file
+
+  <template>
+    format single_value
+    path /var/log/td-agent/${tag_parts[1]}/${tag_parts[2]}
+    time_slice_format %Y-%m-%d
+    append true
+    compress gzip
+    buffer_type file
+    buffer_path /var/log/td-agent/buffer/${tag_parts[1]}.${tag_parts[2]}.buf
+    symlink_path /var/log/td-agent/${tag_parts[1]}/${tag_parts[2]}.log
+    buffer_queue_limit 2048
+    buffer_chunk_limit 8m
+    flush_interval 60s
+    retry_limit 19
+  </template>
+
+</match>
